@@ -1,23 +1,38 @@
 import express from 'express'
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuid } from 'uuid'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
+import Sequelize from 'sequelize'
 
+// configuration --------------
 dotenv.config()
 
-const contacts = [{
-    'Id': uuidv4(),
-    'FirstName': "Albert",
-    'LastName': "Einstein",
-    'PhoneNumber': "2222-1111"
-},
-{
-    'Id': uuidv4(),
-    'FirstName': "Mary",
-    'LastName': "Curie",
-    'PhoneNumber': "1111-1111"
-}]
+// DB_LOCATION=contacts.db
+// ENVIRONMENT=development
+const dbLocation = process.env.DB_LOCATION
 
+// database -------------------
+let options = { dialect: 'sqlite', storage: dbLocation }
+if (process.env.ENVIRONMENT === 'production')
+options = {...options, logging: false}
+const sequelize = new Sequelize(options)
+
+sequelize
+    .authenticate()
+    .then(() => console.log('Connection has been established successfully.'))
+    .catch(err => console.error('Unable to connect to the database:', err))
+
+const Contact = sequelize.define('contacts', {
+    id: { primaryKey: true, type: Sequelize.TEXT },
+    firstName: { type: Sequelize.TEXT },
+    lastName: { type: Sequelize.STRING },
+    phoneNumber: { type: Sequelize.STRING }
+})
+
+sequelize.sync().then(() => console.log(`Database & tables created!`))
+
+
+// api ------------------------
 const app = express()
 
 app.use(express.json())
@@ -30,57 +45,61 @@ app.post('/contacts', (req, res) => {
         res.sendStatus(400)
         return
     }
-    contact.Id = uuidv4()
 
-    contacts.push(contact)
+    contact.id = uuid()
 
-    //todo: 
-    //res.setHeader('Location',`${req.path}/${contact.Id}`)
-    res.setHeader('Location', `/${contact.Id}`)
-    res.sendStatus(201)
+    Contact.create(contact).then(contact => {
+        //todo: 
+        //res.setHeader('Location',`${req.path}/${contact.Id}`)
+        res.setHeader('Location', `/${contact.id}`)
+        res.sendStatus(201)
+    })
 })
 
-app.get('/contacts', (req, res) => {
+app.get('/contacts', async (req, res) => {
+    const contacts = await Contact.findAll()
     res.json(contacts)
 })
 
-app.get('/contacts/:id', (req, res) => {
-    let id = req.params.id
-    let contact = contacts.find(c => c.Id === id)
-    if (!contact) {
+app.get('/contacts/:id', async (req, res) => {
+    const contact = await Contact.findByPk(req.params.id)
+    if (contact === null) {
         res.sendStatus(404)
         return
     }
+
     res.json(contact)
 })
 
-app.put('/contacts/:id', (req, res) => {
-    let new_contact = req.body
-    if (new_contact == null) {
+app.put('/contacts/:id', async (req, res) => {
+    let payload = req.body
+    if (payload == null) {
         res.sendStatus(400)
         return
     }
 
-    let id = req.params.id
-    let i = contacts.findIndex(c => c.Id === id)
-    if (i === -1) {
+    const contact = await Contact.findByPk(req.params.id)
+    if (contact === null) {
         res.sendStatus(404)
         return
     }
 
-    contacts[i] = new_contact
+    await contact.update({
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        phoneNumber: payload.phoneNumber
+    })
 
     res.sendStatus(204)
 })
 
-app.delete('/contacts/:id', (req, res) => {
-    let id = req.params.id
-    let i = contacts.findIndex(c => c.Id === id)
-    if (i === -1) {
+app.delete('/contacts/:id', async (req, res) => {
+    const contact = await Contact.findByPk(req.params.id)
+    if (contact === null) {
         res.sendStatus(404)
         return
     }
-    contacts.splice(i, 1)
+    await contact.destroy()
     res.sendStatus(204)
 })
 
