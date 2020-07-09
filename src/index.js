@@ -1,6 +1,9 @@
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import morgan from 'morgan'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const contacts = [{
     'Id': uuidv4(),
@@ -81,4 +84,4 @@ app.delete('/contacts/:id', (req, res) => {
     res.sendStatus(204)
 })
 
-app.listen(8010, () => console.log('server started'))
+app.listen(8010, () => console.log(`server started on ${process.env.ENVIRONMENT}`))
