@@ -6,9 +6,6 @@ import Sequelize from 'sequelize'
 
 // configuration --------------
 dotenv.config()
-
-// DB_LOCATION=contacts.db
-// ENVIRONMENT=development
 const dbLocation = process.env.DB_LOCATION
 
 // database -------------------
