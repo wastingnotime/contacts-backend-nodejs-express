@@ -10,25 +10,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/henriquericcio/contacts-backend-nodejs-express.git"
+    "url": "git+https://github.com/wastingnotime/contacts-backend-nodejs-express.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/henriquericcio/contacts-backend-nodejs-express/issues"
+    "url": "https://github.com/wastingnotime/contacts-backend-nodejs-express/issues"
   },
-  "homepage": "https://github.com/henriquericcio/contacts-backend-nodejs-express#readme",
+  "homepage": "https://github.com/wastingnotime/contacts-backend-nodejs-express#readme",
   "dependencies": {
     "dotenv": "^16.0.0",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "sequelize": "^6.16.1",
     "sqlite3": "^5.0.2",
-    "uuid": "^8.3.2"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15",
+    "nodemon": "^3.1.4",
     "sucrase": "^3.20.3"
   }
 }
