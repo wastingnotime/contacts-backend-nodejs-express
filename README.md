@@ -3,7 +3,7 @@
 **contacts-backend-nodejs-express** is part of "contacts" project that is an initiative where we try to explore frontend and backend implementations in order to better understand it cutting-edge features. This repository presents a nodejs rest API sample.
 
 ## stack
-* node 16
+* node 21
 * express
 * sqlite
 * sequelize
@@ -30,9 +30,9 @@ execute the local docker image
 ```
 docker run -p 8010:8010 contacts-backend-nodejs-express
 ```
-### option 3 - execute from source code 
+### option 3 - execute from source code
 
-- first, install node 16 +, if you don't have it on your computer:  [how to install node]()
+- first, install node 21 +, if you don't have it on your computer:  [how to install node](https://nodejs.org/en/download/package-manager)
 - go to root of solution and execute the commands below
 
 set environment for development
@@ -40,9 +40,14 @@ set environment for development
 cp .env_example .env
 ```
 
+set node version
+```
+nvm use
+```
+
 install deps
 ```
- npm i
+npm i
  ```
 
 and then run the application
