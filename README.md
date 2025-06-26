@@ -3,7 +3,7 @@
 **contacts-backend-nodejs-express** is part of "contacts" project that is an initiative where we try to explore frontend and backend implementations in order to better understand it cutting-edge features. This repository presents a nodejs rest API sample.
 
 ## stack
-* node 21
+* node 22
 * express
 * sqlite
 * sequelize
