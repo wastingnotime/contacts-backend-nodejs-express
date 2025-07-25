@@ -74,3 +74,7 @@ curl --request GET \
   --url http://localhost:8010/contacts
 ```
 more examples and details about requests on (link) *to be defined
+
+
+# observations
+* multi-stage docker building do not reduce so much but it's kept because can help to segregate build and runtime for future improvements as security concerns. 
