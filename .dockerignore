@@ -1,4 +1,30 @@
-.git
-node_modules
-contacts.db
+# ide's
+.vscode
 .idea
+
+# docker
+dockerfile
+.dockerignore
+
+# git
+.git
+.gitignore
+.github
+
+# node stuff
+node_modules
+npm-debug.log
+
+# dev
+.jshintrc
+.nvmrc
+.env
+.env_example
+dist
+
+# misc
+readme.md
+LICENSE
+
+# database
+contacts.db
